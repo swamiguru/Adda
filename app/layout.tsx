@@ -3,7 +3,7 @@ import Script from 'next/script';
 import { Anek_Latin, Anek_Devanagari } from 'next/font/google';
 import './globals.css';
 
-const GTM_ID = 'GTM-WQLXH2JJ';
+const GTM_ID = 'GTM-PBZQFB32';
 
 /**
  * Anek, drawn by Ek Type in Bombay. Latin and Devanagari are separate
