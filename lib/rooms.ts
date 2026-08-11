@@ -80,6 +80,23 @@ export const rooms: Room[] = [
     status: 'live',
   },
   {
+    // गोवा rather than the Konkani गोंय: the vernacular-name rule that
+    // gave us Mumbai would give Goem here, but almost nobody outside Goa
+    // reads it. Legibility wins over purity for a room nobody has heard of.
+    slug: 'goa',
+    name: 'गोवा',
+    latin: 'Goa',
+    tagline: 'Fontainhas, late afternoon',
+    tz: 'Asia/Kolkata',
+    // Panjim.
+    lat: 15.4989,
+    lon: 73.8278,
+    city: 'Panjim',
+    scene: '/scenes/goa.webp',
+    titleAnchor: [50, 16],
+    status: 'soon',
+  },
+  {
     slug: 'lucknow',
     name: 'लखनऊ',
     latin: 'Lucknow',
