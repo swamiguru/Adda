@@ -59,17 +59,25 @@ export const rooms: Room[] = [
     status: 'live',
   },
   {
-    slug: 'bambai',
-    name: 'बम्बई',
-    latin: 'Bambai',
+    // Mumbai, not Bambai. The pattern this site sets is the vernacular
+    // name - दिल्ली rather than Delhi - and Mumbai is the local name that
+    // Bombay anglicised, not the other way round.
+    slug: 'mumbai',
+    name: 'मुंबई',
+    latin: 'Mumbai',
     tagline: 'Marine Drive after the rain',
     tz: 'Asia/Kolkata',
     lat: 18.9435,
     lon: 72.8234,
     city: 'Mumbai',
-    scene: '/scenes/bambai.webp',
-    titleAnchor: [50, 16],
-    status: 'soon',
+    scene: '/scenes/mumbai.webp',
+    sceneMobile: '/scenes/mumbai-portrait.webp',
+    scenePlaceholder: 'data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAABQBQCdASoYAA4APsFOoUqnpCMhsAgA8BgJQBOmUGP9jGwUD9Vff/AeRSOa6NCv7XW4JpAA+dM3gQxoz6aia5lyvUm2rLJn8rDSEF2WdqbS5zlkSr0NO/VD8L6s5hiKqp03JAIsrJBLl8YQuQvdS8M6fEkz4kYZuR7oXirYks781H9CkOxKo2hlcJXL2aLP/j46ZgAAAAA=',
+    sceneMobilePlaceholder: 'data:image/webp;base64,UklGRvoAAABXRUJQVlA4IO4AAABQBgCdASoYACYAPsFYoE0npSKiKrgMAPAYCWJg61NWunUAT71jF3l6KAdPTOcB8Z5J6kezE5z2tAaegAD+8KLs3q0oX05JcxxDZ/oSiPERpkcybYLD7bhjnucSdYC8VBwWZvHxia/2o8LRj7wuQaRDqep6KdZ0qLwwQS/u/8Ws+9A1yqU2Uo5vBWp8nQjij2rEx3LWYdiQUdt0zWTB6zf6u41aEi6lcyiaZAYZvqAT+aJMXc+gg2UNMDVxY0H1iljIhyG3IHTtHcDhBRVjtYAIedEDvc/RjTIL6mUSO9T4dAU0CnbXAt8qnrAx7gAA',
+    // Upper left is heavy cloud in both scenes - the quietest, darkest
+    // area, and white type sits on it cleanly.
+    titleAnchor: [30, 16],
+    status: 'live',
   },
   {
     slug: 'lucknow',
