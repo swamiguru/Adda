@@ -44,15 +44,6 @@ function loadApi(): Promise<void> {
   return apiPromise;
 }
 
-export type PlayerState = {
-  ready: boolean;
-  playing: boolean;
-  index: number;
-  position: number;
-  duration: number;
-  track: Track | undefined;
-};
-
 export function useYouTube(tracks: Track[], mountId: string) {
   const playerRef = useRef<any>(null);
   const [ready, setReady] = useState(false);
@@ -154,12 +145,96 @@ export function useYouTube(tracks: Track[], mountId: string) {
     [tracks],
   );
 
+  const next = useCallback(() => skip(1), [skip]);
+  const prev = useCallback(() => skip(-1), [skip]);
+
   const seek = useCallback((fraction: number) => {
     const p = playerRef.current;
     if (!p?.getDuration) return;
     const d = p.getDuration();
     if (d) p.seekTo(d * fraction, true);
   }, []);
+
+  const track = tracks[index];
+
+  /**
+   * Lock screen, Control Centre, headphone buttons, car stereo.
+   * Without this the OS shows nothing useful for a tab that's playing
+   * audio, which for a site people leave running in the background is
+   * the difference between a toy and something usable.
+   */
+  useEffect(() => {
+    if (!ready || !track || !('mediaSession' in navigator)) return;
+
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: track.title,
+      artist: track.artist || 'Adda',
+      album: 'Adda',
+      artwork: [
+        { src: track.cover, sizes: '320x180', type: 'image/jpeg' },
+        { src: `https://i.ytimg.com/vi/${track.id}/hqdefault.jpg`, sizes: '480x360', type: 'image/jpeg' },
+      ],
+    });
+
+    const handlers: [MediaSessionAction, () => void][] = [
+      ['play', () => playerRef.current?.playVideo()],
+      ['pause', () => playerRef.current?.pauseVideo()],
+      ['previoustrack', prev],
+      ['nexttrack', next],
+    ];
+
+    for (const [action, fn] of handlers) {
+      try {
+        navigator.mediaSession.setActionHandler(action, fn);
+      } catch {
+        // Older browsers reject unknown actions rather than ignoring them.
+      }
+    }
+
+    return () => {
+      for (const [action] of handlers) {
+        try {
+          navigator.mediaSession.setActionHandler(action, null);
+        } catch {
+          /* ignore */
+        }
+      }
+    };
+  }, [ready, track, next, prev]);
+
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+    }
+  }, [playing]);
+
+  /** Space to play/pause, arrows to skip - what people expect of a player. */
+  useEffect(() => {
+    if (!ready) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      // Don't hijack a focused control; Space and Enter belong to it.
+      const el = e.target as HTMLElement | null;
+      if (el && (el.closest('button, a, input, textarea, [contenteditable]') || el.isContentEditable)) {
+        return;
+      }
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      if (e.code === 'Space' || e.key === 'k') {
+        e.preventDefault(); // Space would otherwise scroll
+        toggle();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        next();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prev();
+      }
+    };
+
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [ready, toggle, next, prev]);
 
   return {
     ready,
@@ -168,10 +243,10 @@ export function useYouTube(tracks: Track[], mountId: string) {
     index,
     position,
     duration,
-    track: tracks[index],
+    track,
     toggle,
-    next: () => skip(1),
-    prev: () => skip(-1),
+    next,
+    prev,
     seek,
   };
 }

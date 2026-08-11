@@ -74,7 +74,10 @@ export default function Cassette({ tracks, room }: { tracks: Track[]; room: stri
           <circle cx="20" cy="20" r="1.3" fill="#221913" />
         </svg>
 
-        <div className="meta">
+        {/* Keyed on the track id so React remounts these on a change,
+            which restarts the crossfade. Without the key the text just
+            snaps to the new song. */}
+        <div className="meta" key={track?.id ?? 'none'}>
           <div className="title">{track?.title ?? '—'}</div>
           <div className="sub">
             <span className="artist">{track?.artist || fmt(position)}</span>

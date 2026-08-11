@@ -25,7 +25,12 @@ export default function Hub() {
                   className="room-art"
                   style={
                     room.status === 'live'
-                      ? { backgroundImage: `url('${room.scene}')` }
+                      ? {
+                          backgroundImage: `url('${room.scene}')`,
+                          // Pairs with the room's scene so the artwork
+                          // morphs across the navigation rather than cutting.
+                          viewTransitionName: `scene-${room.slug}`,
+                        }
                       : undefined
                   }
                 >

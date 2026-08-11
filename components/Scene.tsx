@@ -1,11 +1,9 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
- * The illustration plus its grain. One flat image per room for now - if a
- * scene later gets cut into planes, this is the only component that changes
- * and nothing else on the page needs to know.
+ * The illustration, its placeholder, and the grain.
  *
  * The drift should be close to subliminal. If you can consciously watch it
  * move, it's turned up too far.
@@ -13,13 +11,43 @@ import { useEffect, useRef } from 'react';
 export default function Scene({
   src,
   mobileSrc,
+  placeholder,
+  mobilePlaceholder,
+  transitionName,
   alt,
 }: {
   src: string;
   mobileSrc?: string;
+  placeholder?: string;
+  mobilePlaceholder?: string;
+  /** Pairs with the hub card's artwork so the two morph across navigation. */
+  transitionName?: string;
   alt: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [loaded, setLoaded] = useState(!placeholder);
+
+  // Decode the scene off-screen, then fade it over the blurred placeholder.
+  // Without this the image pops in on a slow connection.
+  useEffect(() => {
+    if (!placeholder) return;
+
+    const portrait = window.matchMedia('(orientation: portrait) and (max-width: 900px)').matches;
+    const img = new Image();
+    img.src = portrait && mobileSrc ? mobileSrc : src;
+
+    if (img.complete) {
+      setLoaded(true);
+      return;
+    }
+    const done = () => setLoaded(true);
+    img.addEventListener('load', done);
+    img.addEventListener('error', done); // don't strand the page on a blurred stub
+    return () => {
+      img.removeEventListener('load', done);
+      img.removeEventListener('error', done);
+    };
+  }, [src, mobileSrc, placeholder]);
 
   useEffect(() => {
     const el = ref.current;
@@ -53,8 +81,21 @@ export default function Scene({
 
   return (
     <div className="scene">
+      {placeholder && (
+        <div
+          className="scene-lqip"
+          aria-hidden="true"
+          style={
+            {
+              '--lqip': `url('${placeholder}')`,
+              '--lqip-mobile': `url('${mobilePlaceholder ?? placeholder}')`,
+            } as React.CSSProperties
+          }
+        />
+      )}
+
       <div
-        className="scene-img"
+        className={loaded ? 'scene-img is-loaded' : 'scene-img'}
         ref={ref}
         role="img"
         aria-label={alt}
@@ -65,9 +106,11 @@ export default function Scene({
           {
             '--scene': `url('${src}')`,
             '--scene-mobile': `url('${mobileSrc ?? src}')`,
+            viewTransitionName: transitionName,
           } as React.CSSProperties
         }
       />
+
       <svg className="grain" aria-hidden="true">
         <filter id="grain-filter">
           <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="3" stitchTiles="stitch" />
@@ -75,6 +118,7 @@ export default function Scene({
         </filter>
         <rect width="100%" height="100%" filter="url(#grain-filter)" />
       </svg>
+
       <div className="vignette" aria-hidden="true" />
     </div>
   );

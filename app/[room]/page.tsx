@@ -56,6 +56,9 @@ export default async function RoomPage({ params }: Props) {
       <Scene
         src={room.scene}
         mobileSrc={room.sceneMobile}
+        placeholder={room.scenePlaceholder}
+        mobilePlaceholder={room.sceneMobilePlaceholder}
+        transitionName={`scene-${room.slug}`}
         alt={`${room.latin} street scene`}
       />
       <Haze lat={room.lat} lon={room.lon} />

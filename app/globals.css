@@ -783,3 +783,147 @@ main {
     padding: 0.2rem 0;
   }
 }
+
+/* ---------- Placeholder / blur-up ---------- */
+
+/* A 24px inline WebP, blown up and blurred. Paints on the first frame,
+   so the page never shows a bare dark rectangle while a 220 KB scene
+   decodes. Sits behind the real image, which fades over it. */
+.scene-lqip {
+  position: absolute;
+  inset: 0;
+  background-image: var(--lqip);
+  background-size: cover;
+  background-position: 62% center;
+  filter: blur(28px) saturate(1.1);
+  transform: scale(1.1);
+}
+
+.scene-img {
+  opacity: 0;
+  transition: opacity 520ms ease, transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scene-img.is-loaded {
+  opacity: 1;
+}
+
+@media (orientation: portrait) and (max-width: 900px) {
+  .scene-lqip {
+    background-image: var(--lqip-mobile);
+    background-position: center center;
+  }
+}
+
+/* ---------- Entrance ---------- */
+
+/* Staggered arrival. Deliberately excludes the scene, which has its own
+   blur-up and its own view-transition to run - two systems animating the
+   same element fight each other. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@keyframes rise-centred {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(14px);
+  }
+}
+
+.hud {
+  animation: rise 620ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+}
+
+.wordmark {
+  animation: rise-centred 760ms cubic-bezier(0.22, 1, 0.36, 1) 260ms both;
+}
+
+/* NOT on .dock. Animating transform there makes it the containing block
+   for .yt-frame, which is position:fixed - the frame lands in the middle
+   of the pill instead of the viewport corner. Same trap as the old
+   translateX(-50%) centring. The pill can move; its wrapper can't. */
+.pill {
+  animation: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) 420ms both;
+}
+
+/* Opacity only: .yt-frame carries its own transform for the mobile scale,
+   and an animation would clobber it. */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.yt-frame {
+  animation: fade-in 700ms ease 560ms both;
+}
+
+.hub-head,
+.room-grid,
+.hub-foot {
+  animation: rise 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.room-grid {
+  animation-delay: 100ms;
+}
+
+.hub-foot {
+  animation-delay: 200ms;
+}
+
+/* ---------- Track change ---------- */
+
+/* Remounted via a React key on the track id, so this replays each change. */
+@keyframes track-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+.meta {
+  animation: track-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ---------- View transitions ---------- */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* The paired artwork morphs; `cover` on both sides keeps the crop honest
+   while the box changes shape. */
+::view-transition-group(*) {
+  animation-duration: 520ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hud,
+  .wordmark,
+  .pill,
+  .yt-frame,
+  .hub-head,
+  .room-grid,
+  .hub-foot,
+  .meta {
+    animation: none;
+  }
+
+  .scene-img {
+    transition: opacity 200ms ease;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
