@@ -93,8 +93,13 @@ export const rooms: Room[] = [
     lon: 73.8278,
     city: 'Panjim',
     scene: '/scenes/goa.webp',
+    sceneMobile: '/scenes/goa-portrait.webp',
+    scenePlaceholder: 'data:image/webp;base64,UklGRt4AAABXRUJQVlA4INIAAABQBQCdASoYAA4APsFOoEqnpCMhsAgA8BgJbACdLwGUBi2dkZleB7pS2qpNUavwD+Q7UKAA/ubn/OQJg9vp8BohPyVo6pHcoZDNVhi/3F56caY+0A0QpE1z7IX+EKeU3VbpMWeuk8AgGiZOqpE259RuLcgrrLiPSgixT4L6rTc2w19yXF0WC2sYl2OTVxH1mjuokoW8EibOUGIB7SZTZRfl0ZIHQzg5+/DX4kQCK5PBd5nk/nzbF1WwCueQfZDS1VTb6jrziCHGtZrRljuni9n+AAA=',
+    sceneMobilePlaceholder: 'data:image/webp;base64,UklGRnIBAABXRUJQVlA4IGYBAABQBwCdASoYAB4APsFapk6npSOiKAgA8BgJbACdMoMYPZOeAc8rpqo5VBDIF6vCEE6MeF4l9boiSi9Ov6bjBjPfdDQAAP7ppc2ClPQ+LWcMWeRHySQ88sDZ5pk39oKfcyu3MOvoCX/UqW7gvZEdiJkcZBIFVhLZVyWcuIRS+RXWw1ooGgONoJlJwR/sMA+B3IT7kdNeqghpuzNy+LHi56wn7s7Z1JNybJgKHX2OzCY3oRdlAlE89G3C1t70LWkf5cxE7i9ovKnFlf9Ssfuw3KHyAIQy+MPjuoyWZUMRatzFqoyx+NwnZiWDAKtGk59jBSc5J/DuYcZz8aLZTLHr5oKmayN2YzK5l48N7RiW097vUkM1I6TnP3EYntHp4KOY3fu96JF8JhXd13EBd/HWm3M4zkv2I6qBDzhzPn0m74MLilsjLMw7nu4LcSl64Qixmkvff+UcY9E2gW5UqppNCtX8VjCm6QAA',
+    // The bright slot of sky between the rooflines runs up the middle of
+    // both scenes, so the wordmark stays centred here.
     titleAnchor: [50, 16],
-    status: 'soon',
+    status: 'live',
   },
   {
     slug: 'lucknow',
