@@ -37,14 +37,16 @@ export const rooms: Room[] = [
     slug: 'dilli',
     name: 'दिल्ली',
     latin: 'Dilli',
-    tagline: 'Connaught Place, golden hour',
+    tagline: 'India Gate, golden hour',
     tz: 'Asia/Kolkata',
     lat: 28.6315,
     lon: 77.2167,
     city: 'Delhi',
     scene: '/scenes/dilli.webp',
     sceneMobile: '/scenes/dilli-portrait.webp',
-    titleAnchor: [50, 16],
+    // Left of centre: the arch sits on the right in both scenes, so the
+    // open sky is on the left.
+    titleAnchor: [33, 16],
     status: 'live',
   },
   {
