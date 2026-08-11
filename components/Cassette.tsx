@@ -29,12 +29,50 @@ export default function Cassette({ tracks, room }: { tracks: Track[]; room: stri
   return (
     <div className="cassette">
       <div className="pill">
-        {/* One reel, not two. A single rotating circle stays legible at 40px;
-            two reels plus a window plus a tape path needs ~300px to parse,
-            which is what made the old player so large. */}
-        <div className={`reel ${playing || buffering ? 'spinning' : ''}`} aria-hidden="true">
-          <span className="hub" />
-        </div>
+        {/* A 78rpm record rather than a tape spool - closer to the music,
+            and the rosette label gives it something to be at 40px.
+            Deliberately not an Ashoka Chakra: it's a protected national
+            symbol and spinning it as player decoration invites trouble. */}
+        <svg
+          className={`reel ${playing || buffering ? 'spinning' : ''}`}
+          viewBox="0 0 40 40"
+          aria-hidden="true"
+        >
+          <circle cx="20" cy="20" r="19" fill="#221913" stroke="rgba(242,228,206,0.2)" strokeWidth="1" />
+
+          {/* Grooves. Sub-pixel strokes read as sheen rather than lines. */}
+          {[16.6, 14.8, 13.2, 11.7].map((r) => (
+            <circle
+              key={r}
+              cx="20"
+              cy="20"
+              r={r}
+              fill="none"
+              stroke="rgba(242,228,206,0.1)"
+              strokeWidth="0.55"
+            />
+          ))}
+
+          <circle cx="20" cy="20" r="9" fill="#a84b32" />
+          <circle cx="20" cy="20" r="9" fill="none" stroke="rgba(0,0,0,0.25)" strokeWidth="0.6" />
+
+          {/* Eight-petal rangoli rosette. Any more petals and it turns to
+              mush at this size. */}
+          {Array.from({ length: 8 }).map((_, i) => (
+            <ellipse
+              key={i}
+              cx="20"
+              cy="15.1"
+              rx="1.45"
+              ry="2.7"
+              fill="rgba(242,228,206,0.88)"
+              transform={`rotate(${i * 45} 20 20)`}
+            />
+          ))}
+
+          <circle cx="20" cy="20" r="2.6" fill="#a84b32" />
+          <circle cx="20" cy="20" r="1.3" fill="#221913" />
+        </svg>
 
         <div className="meta">
           <div className="title">{track?.title ?? '—'}</div>
