@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { Anek_Latin, Anek_Devanagari } from 'next/font/google';
 import './globals.css';
+
+const GTM_ID = 'GTM-WQLXH2JJ';
 
 /**
  * Anek, drawn by Ek Type in Bombay. Latin and Devanagari are separate
@@ -61,8 +64,36 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Warm up the YouTube origins before the player is created. */}
         <link rel="preconnect" href="https://www.youtube.com" />
         <link rel="preconnect" href="https://i.ytimg.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+
+        {/* Google Tag Manager.
+            afterInteractive rather than beforeInteractive: GTM doesn't need
+            to run before hydration, and loading it first would delay the
+            scene and the player for no measurement benefit. */}
+        <Script
+          id="gtm"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');`,
+          }}
+        />
       </head>
-      <body>{children}</body>
+      <body>
+        {/* GTM noscript fallback. Must be the first thing in the body. */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+        {children}
+      </body>
     </html>
   );
 }
