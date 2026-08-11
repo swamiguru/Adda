@@ -1,0 +1,7 @@
+import type { Track } from '@/lib/types';
+import dilli from './dilli.json';
+
+/** Keyed by room slug. Add a room's JSON here when you add the room. */
+export const playlists: Record<string, Track[]> = {
+  dilli: dilli as Track[],
+};
