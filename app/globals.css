@@ -214,7 +214,9 @@ main {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: clamp(1rem, 4vh, 2.5rem);
+  /* Lifted off the bottom edge. At the old value the pill looked like it
+     was falling out of the frame rather than sitting in it. */
+  bottom: clamp(1.5rem, 6vh, 3.5rem);
   margin-inline: auto;
   z-index: 3;
   width: var(--dock-w);
@@ -406,10 +408,13 @@ main {
 
 /* Kept at the ToS-required 200x200 and genuinely visible, but dressed as
    a screen sitting on a shelf so it reads as part of the shopfront. */
+/* Tucked tighter into the corner. It has to stay 200x200 and unobscured,
+   so the only lever is position - the further into the corner it sits,
+   the less it competes with the scene. */
 .yt-frame {
   position: fixed;
-  right: 1.5rem;
-  bottom: 1.5rem;
+  right: 1rem;
+  bottom: 1rem;
   width: 200px;
 }
 
