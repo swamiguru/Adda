@@ -21,24 +21,38 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const room = getRoom(slug);
   if (!room) return {};
 
-  // Just the city. The layout's template appends "· Adda" - spelling it
-  // out here too produced "Dilli — Adda · Adda" in the tab.
-  const title = room.latin;
-  const description = room.tagline;
-
-  // Per-room card, falling back to the hub's if a room hasn't got one yet.
+  const count = playlists[room.slug]?.length ?? 0;
   const image = `/og/${room.slug}.jpg`;
 
+  // Search: says what the page is to someone who's never heard of it.
+  // The layout template appends "· Adda", so don't repeat it here.
+  const seoTitle = `${room.latin} — songs from ${room.city}`;
+  const seoDescription =
+    `${count} songs from ${room.city}, playing under ${room.tagline}. ` +
+    `Shows ${room.city}'s real time and weather, wherever you are.`;
+
+  // Social: the native script reads as itself in a feed, and the hook is
+  // the inversion rather than a description of the page.
+  const socialTitle = `${room.name} · Adda`;
+  const socialDescription = `${room.tagline}. ${count} songs, and ${room.city}'s own clock.`;
+
   return {
-    title,
-    description,
+    title: seoTitle,
+    description: seoDescription,
+    alternates: { canonical: `/${room.slug}` },
     openGraph: {
-      title: `${room.latin} · Adda`,
-      description,
+      title: socialTitle,
+      description: socialDescription,
       type: 'music.playlist',
-      images: [{ url: image, width: 1200, height: 630, alt: `${room.latin} — Adda` }],
+      url: `/${room.slug}`,
+      images: [{ url: image, width: 1200, height: 630, alt: `${room.latin} — ${room.tagline}` }],
     },
-    twitter: { card: 'summary_large_image', title, description, images: [image] },
+    twitter: {
+      card: 'summary_large_image',
+      title: socialTitle,
+      description: socialDescription,
+      images: [image],
+    },
   };
 }
 

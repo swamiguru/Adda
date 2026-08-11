@@ -28,26 +28,45 @@ const anekDevanagari = Anek_Devanagari({
   display: 'swap',
 });
 
-const title = 'Adda';
-const description = 'Pick a city. Its songs, its sky, its clock.';
+/**
+ * Search copy and social copy do different jobs, so they're written
+ * separately.
+ *
+ * Search has to explain the thing to someone who has never heard of it -
+ * "Adda" on its own tells Google nothing. Social has to make someone stop
+ * scrolling, and the strongest line we have is the inversion: the clock
+ * shows the city's time, not yours.
+ *
+ * Rough limits before truncation: 60 chars for a search title, 155 for a
+ * description, and about 45 for an OG title in a feed.
+ */
+const seoTitle = 'Adda — pick a city, hear its songs';
+const seoDescription =
+  'Pick a city and hear its songs, under its own sky and its own clock. Delhi first: 31 songs at India Gate, golden hour.';
+
+const socialTitle = 'The clock here shows Delhi’s time, not yours';
+const socialDescription = 'Pick a city. Its songs, its sky, its clock.';
 
 export const metadata: Metadata = {
   // Needed for relative OG image paths to resolve to absolute URLs.
   // Set NEXT_PUBLIC_SITE_URL in Vercel; the fallback only covers local dev.
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
-  title: { default: title, template: '%s · Adda' },
-  description,
+  title: { default: seoTitle, template: '%s · Adda' },
+  description: seoDescription,
+  applicationName: 'Adda',
+  alternates: { canonical: '/' },
   openGraph: {
-    title,
-    description,
+    title: socialTitle,
+    description: socialDescription,
     type: 'website',
-    siteName: title,
-    images: [{ url: '/og.jpg', width: 1200, height: 630, alt: 'Adda' }],
+    siteName: 'Adda',
+    url: '/',
+    images: [{ url: '/og.jpg', width: 1200, height: 630, alt: 'Adda — India Gate at golden hour' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title,
-    description,
+    title: socialTitle,
+    description: socialDescription,
     images: ['/og.jpg'],
   },
 };
