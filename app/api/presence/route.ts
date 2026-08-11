@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { rooms } from '@/lib/rooms';
+import { getRedis, redisConfigured } from '@/lib/redis';
 
+// Node, not edge: the Redis client speaks TCP.
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 /**
- * Per-room presence, backed by Upstash Redis sorted sets.
+ * Per-room presence, backed by Vercel Redis sorted sets.
  *
  * POST { id, room }  -> heartbeat, returns that room's count
  * GET  ?rooms=a,b    -> counts only, no write. Used by the hub.
@@ -15,12 +17,9 @@ export const dynamic = 'force-dynamic';
  * remaining cardinality is the count. No websockets, no connection state,
  * and it self-heals when someone closes the tab without saying goodbye.
  *
- * Without UPSTASH_REDIS_REST_URL / _TOKEN this returns nulls and the UI
- * renders nothing, so local dev and previews work with no Redis at all.
+ * With no REDIS_URL set this returns nulls and the UI renders nothing,
+ * so local dev and previews work with no database at all.
  */
-
-const URL_ = process.env.UPSTASH_REDIS_REST_URL;
-const TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
 
 const STALE_MS = 45_000; // must exceed the client heartbeat interval
 const KEY_TTL_S = 300;
@@ -28,22 +27,11 @@ const KEY_TTL_S = 300;
 const key = (room: string) => `presence:${room}`;
 
 // Only known slugs may be used as keys. Without this, anyone could write
-// arbitrary keys into your Redis by posting a made-up room name.
+// arbitrary keys into your database by posting a made-up room name.
 const valid = new Set(rooms.map((r) => r.slug));
 
-async function pipeline(commands: string[][]) {
-  const res = await fetch(`${URL_}/pipeline`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(commands),
-    cache: 'no-store',
-  });
-  if (!res.ok) throw new Error(String(res.status));
-  return res.json();
-}
-
 export async function POST(req: NextRequest) {
-  if (!URL_ || !TOKEN) return NextResponse.json({ count: null });
+  if (!redisConfigured()) return NextResponse.json({ count: null });
 
   let id: string;
   let room: string;
@@ -59,30 +47,36 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'bad request' }, { status: 400 });
   }
 
-  const now = Date.now();
-  const k = key(room);
-
   try {
-    const out = await pipeline([
-      ['ZREMRANGEBYSCORE', k, '0', String(now - STALE_MS)],
-      ['ZADD', k, String(now), id],
-      ['ZCARD', k],
-      ['EXPIRE', k, String(KEY_TTL_S)],
-    ]);
-    const count = Number(out?.[2]?.result ?? 0);
+    const redis = await getRedis();
+    if (!redis) return NextResponse.json({ count: null });
+
+    const now = Date.now();
+    const k = key(room);
+
+    const results = await redis
+      .multi()
+      .zRemRangeByScore(k, 0, now - STALE_MS)
+      .zAdd(k, { score: now, value: id })
+      .zCard(k)
+      .expire(k, KEY_TTL_S)
+      .exec();
+
+    const count = Number(results?.[2] ?? 0);
+
     return NextResponse.json(
       { count: Number.isFinite(count) ? count : null },
       { headers: { 'Cache-Control': 'no-store' } },
     );
   } catch {
-    // Presence is decoration. A visitor can't act on a Redis outage,
+    // Presence is decoration. A visitor can't act on a database outage,
     // so there's no point surfacing one.
     return NextResponse.json({ count: null });
   }
 }
 
 export async function GET(req: NextRequest) {
-  if (!URL_ || !TOKEN) return NextResponse.json({ counts: {} });
+  if (!redisConfigured()) return NextResponse.json({ counts: {} });
 
   const wanted = (req.nextUrl.searchParams.get('rooms') ?? '')
     .split(',')
@@ -91,20 +85,24 @@ export async function GET(req: NextRequest) {
 
   if (!wanted.length) return NextResponse.json({ counts: {} });
 
-  const now = Date.now();
-
   try {
-    // Read-only: evict stale entries, then count. No ZADD, so simply
+    const redis = await getRedis();
+    if (!redis) return NextResponse.json({ counts: {} });
+
+    const now = Date.now();
+
+    // Read-only: evict stale entries, then count. No zAdd, so merely
     // looking at the hub doesn't inflate the numbers.
-    const commands = wanted.flatMap((room) => [
-      ['ZREMRANGEBYSCORE', key(room), '0', String(now - STALE_MS)],
-      ['ZCARD', key(room)],
-    ]);
-    const out = await pipeline(commands);
+    const tx = redis.multi();
+    for (const room of wanted) {
+      tx.zRemRangeByScore(key(room), 0, now - STALE_MS);
+      tx.zCard(key(room));
+    }
+    const results = await tx.exec();
 
     const counts: Record<string, number> = {};
     wanted.forEach((room, i) => {
-      counts[room] = Number(out?.[i * 2 + 1]?.result ?? 0);
+      counts[room] = Number(results?.[i * 2 + 1] ?? 0);
     });
 
     return NextResponse.json({ counts }, { headers: { 'Cache-Control': 'no-store' } });
