@@ -12,6 +12,14 @@ export type Room = {
   /** Label shown next to the temperature. */
   city: string;
   scene: string;
+  /**
+   * Portrait-composed version for phones. Optional - falls back to `scene`.
+   *
+   * Not a crop of the landscape file. A 16:9 image under `cover` on a
+   * 390x844 viewport shows roughly a quarter of its width, so the mobile
+   * scene has to be drawn as its own composition or most of it is lost.
+   */
+  sceneMobile?: string;
   /** Where the wordmark can sit without fighting the artwork: [x%, y%]. */
   titleAnchor: [number, number];
   status: 'live' | 'soon';
@@ -35,6 +43,7 @@ export const rooms: Room[] = [
     lon: 77.2167,
     city: 'Delhi',
     scene: '/scenes/dilli.webp',
+    sceneMobile: '/scenes/dilli-portrait.webp',
     titleAnchor: [50, 16],
     status: 'live',
   },

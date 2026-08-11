@@ -52,7 +52,11 @@ export default async function RoomPage({ params }: Props) {
 
   return (
     <main>
-      <Scene src={room.scene} alt={`${room.latin} street scene`} />
+      <Scene
+        src={room.scene}
+        mobileSrc={room.sceneMobile}
+        alt={`${room.latin} street scene`}
+      />
 
       <header className="hud">
         <RoomClock tz={room.tz} city={room.city} />

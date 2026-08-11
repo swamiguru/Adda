@@ -10,7 +10,15 @@ import { useEffect, useRef } from 'react';
  * The drift should be close to subliminal. If you can consciously watch it
  * move, it's turned up too far.
  */
-export default function Scene({ src, alt }: { src: string; alt: string }) {
+export default function Scene({
+  src,
+  mobileSrc,
+  alt,
+}: {
+  src: string;
+  mobileSrc?: string;
+  alt: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -50,7 +58,15 @@ export default function Scene({ src, alt }: { src: string; alt: string }) {
         ref={ref}
         role="img"
         aria-label={alt}
-        style={{ backgroundImage: `url('${src}')` }}
+        // Both sources handed to CSS as custom properties; the media query
+        // in globals.css picks one. Doing the switch in CSS rather than JS
+        // means no flash of the wrong image and no resize listener.
+        style={
+          {
+            '--scene': `url('${src}')`,
+            '--scene-mobile': `url('${mobileSrc ?? src}')`,
+          } as React.CSSProperties
+        }
       />
       <svg className="grain" aria-hidden="true">
         <filter id="grain-filter">

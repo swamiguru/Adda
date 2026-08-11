@@ -51,10 +51,9 @@ main {
 .scene-img {
   position: absolute;
   inset: 0;
-  /* The image itself is set inline per room by Scene.tsx.
-     Single source per scene on purpose: `cover` crops hard on tall phone
-     viewports, which magnifies the artwork rather than shrinking it, so a
-     smaller mobile variant would look worse, not better. */
+  /* Sources come from Scene.tsx as custom properties; see the portrait
+     override further down. */
+  background-image: var(--scene);
   background-size: cover;
   /* Bias toward the flag and the colonnade when the viewport crops in. */
   background-position: 62% center;
@@ -449,6 +448,19 @@ main {
   border-radius: 0 0 3px 3px;
   background: linear-gradient(180deg, #4a3f3a, #2a2320);
   box-shadow: 0 6px 14px rgba(20, 15, 12, 0.45);
+}
+
+/* Portrait scene on tall screens.
+   A 16:9 image under `cover` on a 390x844 viewport shows about a quarter
+   of its width - the subject survives, the composition doesn't. Swapping
+   to an image drawn for the shape is the only real fix; `contain` would
+   letterbox and waste half the screen. Falls back to the landscape file
+   when a room has no portrait version. */
+@media (orientation: portrait) and (max-width: 900px) {
+  .scene-img {
+    background-image: var(--scene-mobile);
+    background-position: center center;
+  }
 }
 
 @media (max-width: 760px) {
