@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { getRoom, liveRooms } from '@/lib/rooms';
 import { playlists } from '@/lib/playlists';
 import Scene from '@/components/Scene';
+import Haze from '@/components/Haze';
 import Cassette from '@/components/Cassette';
 import RoomClock from '@/components/RoomClock';
 import Weather from '@/components/Weather';
@@ -57,16 +58,24 @@ export default async function RoomPage({ params }: Props) {
         mobileSrc={room.sceneMobile}
         alt={`${room.latin} street scene`}
       />
+      <Haze lat={room.lat} lon={room.lon} />
 
       <header className="hud">
-        <RoomClock tz={room.tz} city={room.city} />
+        {/* Time and weather are one thought - where you are and what it's
+            like there. Navigation is a different kind of thing and sits
+            on its own. */}
+        <div className="ambience">
+          <RoomClock tz={room.tz} city={room.city} />
+          <Weather lat={room.lat} lon={room.lon} />
+        </div>
+
         <Presence room={room.slug} />
-        <div className="links">
+
+        <nav className="hud-nav">
           <Link href="/" className="back">
             <span aria-hidden="true">&#8592;</span> all rooms
           </Link>
-          <Weather lat={room.lat} lon={room.lon} city={room.city} />
-        </div>
+        </nav>
       </header>
 
       <h1

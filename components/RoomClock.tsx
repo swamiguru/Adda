@@ -14,8 +14,8 @@ export default function RoomClock({
 }: {
   tz: string;
   city?: string;
-  /** Hub cards want a normal "1:22 pm". The big room clock uses the
-      spaced "1 22 pm" treatment, which reads as a typo at small sizes. */
+  /** Hub cards want a plain inline reading; the room clock is the header's
+      loudest element and gets the larger treatment. */
   compact?: boolean;
 }) {
   const [now, setNow] = useState<Date | null>(null);
@@ -28,7 +28,7 @@ export default function RoomClock({
 
   // Held back until mount. Rendering a clock on the server guarantees a
   // hydration mismatch the moment the second ticks over.
-  if (!now) return <div className="clock" aria-hidden="true" />;
+  if (!now) return <div className={compact ? 'clock' : 'clock clock-lg'} aria-hidden="true" />;
 
   const time = new Intl.DateTimeFormat('en-US', {
     hour: 'numeric',
@@ -40,12 +40,10 @@ export default function RoomClock({
   const [hhmm, meridiem] = time.split(' ');
 
   return (
-    <div className="clock">
-      <span className="hhmm">{compact ? hhmm : hhmm?.replace(':', ' ')}</span>
-      <span className="meridiem">
-        {meridiem?.toLowerCase()}
-        {city ? ` in ${city}` : ''}
-      </span>
+    <div className={compact ? 'clock' : 'clock clock-lg'}>
+      <span className="hhmm">{hhmm}</span>
+      <span className="meridiem">{meridiem?.toLowerCase()}</span>
+      {city && !compact && <span className="in-city">in {city}</span>}
     </div>
   );
 }
