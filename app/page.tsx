@@ -9,6 +9,8 @@ import HubPresence from '@/components/HubPresence';
 const PREVIEW_COUNT = 3;
 
 export default function Hub() {
+  const liveCount = rooms.filter((r) => r.status === 'live').length;
+
   return (
     <main className="hub-page">
       <div className="hub-inner">
@@ -100,9 +102,26 @@ export default function Hub() {
         </ul>
 
         <footer className="hub-foot">
-          <a href="https://builtbyswami.com" target="_blank" rel="noopener noreferrer">
-            builtbyswami.com
-          </a>
+          <div className="foot-main">
+            <p className="foot-lede">
+              {liveCount} {liveCount === 1 ? 'room' : 'rooms'} so far. More on the way.
+            </p>
+            {/* Credit where it's due, and an honest note about the artwork.
+                The scenes are AI-generated and the visible provenance mark
+                was cropped off when they were framed full-bleed, so the
+                disclosure belongs here instead. */}
+            <p className="foot-credits">
+              Songs stream from YouTube. Weather from Open-Meteo. Scenes generated
+              with AI, then art-directed and corrected by hand.
+            </p>
+          </div>
+
+          <nav className="foot-links" aria-label="Elsewhere">
+            <a href="https://builtbyswami.com" target="_blank" rel="noopener noreferrer">
+              builtbyswami.com <span aria-hidden="true">&#8599;</span>
+            </a>
+            <span className="foot-made">Made by Swami</span>
+          </nav>
         </footer>
       </div>
     </main>

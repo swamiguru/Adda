@@ -782,20 +782,76 @@ main {
 }
 
 .hub-foot {
-  margin-top: clamp(2.5rem, 8vh, 4rem);
-  font-size: 0.78rem;
-  letter-spacing: 0.1em;
-  opacity: 0.45;
+  margin-top: clamp(3rem, 10vh, 5rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(242, 228, 206, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
-.hub-foot a {
+.foot-main {
+  max-width: 46ch;
+}
+
+.foot-lede {
+  margin: 0 0 0.4rem;
+  font-size: 0.84rem;
+  opacity: 0.62;
+}
+
+/* Quieter than the lede on purpose. This is provenance, not a message -
+   it should be findable rather than read. */
+.foot-credits {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.55;
+  opacity: 0.34;
+}
+
+.foot-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-align: right;
+}
+
+.foot-links a {
   color: inherit;
   text-decoration: none;
+  opacity: 0.72;
+  transition: opacity 160ms;
 }
 
-.hub-foot a:hover {
+.foot-links a:hover {
   opacity: 1;
-  text-decoration: underline;
+}
+
+.foot-links a:focus-visible {
+  outline: 2px solid var(--saffron);
+  outline-offset: 4px;
+  border-radius: 3px;
+}
+
+.foot-made {
+  opacity: 0.34;
+}
+
+@media (max-width: 620px) {
+  .hub-foot {
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .foot-links {
+    align-items: flex-start;
+    text-align: left;
+  }
 }
 
 /* ---------- Haze ---------- */
