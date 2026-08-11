@@ -8,11 +8,22 @@ The repo is committed locally at `~/Projects/deluxe-cp` (`78b6016`). Node 26 and
 
 ## 1. Push to GitHub
 
-```bash
-gh auth login          # or create the repo in the browser
+Run these one at a time, not as a block:
+
+```
+gh auth login
+```
+
+Interactive — choose GitHub.com, HTTPS, authenticate via browser. Then:
+
+```
 cd ~/Projects/deluxe-cp
 gh repo create adda --private --source=. --push
 ```
+
+(No inline `#` comments in these blocks on purpose: interactive zsh doesn't
+treat `#` as a comment unless `interactive_comments` is set, so a trailing
+note gets passed to the command as arguments.)
 
 Private is the right default. You can flip it public later if you want the code itself to be part of the portfolio — for a hirer, readable source is usually a plus, but only once you've read back through it yourself.
 
