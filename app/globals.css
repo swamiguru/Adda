@@ -464,12 +464,15 @@ main {
 }
 
 @media (max-width: 760px) {
+  /* Sits above the pill rather than up beside the wordmark. Album art is
+     often the most saturated thing on screen, and next to the title it
+     wins every time - down here it reads as part of the player. */
   .yt-frame {
     right: 0.6rem;
-    bottom: auto;
-    top: 5rem;
-    transform: scale(0.5);
-    transform-origin: top right;
+    top: auto;
+    bottom: 8rem;
+    transform: scale(0.45);
+    transform-origin: bottom right;
   }
 
   .hud {
