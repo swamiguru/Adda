@@ -1,9 +1,15 @@
 [
   {
-    "id": "arVuYDmfSmQ",
-    "title": "Sajna Ve Sajna",
-    "artist": "Sunidhi Chauhan",
-    "cover": "https://i.ytimg.com/vi/arVuYDmfSmQ/mqdefault.jpg"
+    "id": "rSZHXb3_1tY",
+    "title": "Rum Whisky",
+    "artist": "Abhishek - Akshay",
+    "cover": "https://i.ytimg.com/vi/rSZHXb3_1tY/mqdefault.jpg"
+  },
+  {
+    "id": "pjfygHqm8fg",
+    "title": "Dilli - 6",
+    "artist": "Viviane Chaix",
+    "cover": "https://i.ytimg.com/vi/pjfygHqm8fg/mqdefault.jpg"
   },
   {
     "id": "_fmA1RoHbzA",
@@ -36,10 +42,10 @@
     "cover": "https://i.ytimg.com/vi/9HzMR9abGAI/mqdefault.jpg"
   },
   {
-    "id": "pjfygHqm8fg",
-    "title": "Dilli - 6",
-    "artist": "Viviane Chaix",
-    "cover": "https://i.ytimg.com/vi/pjfygHqm8fg/mqdefault.jpg"
+    "id": "Bvyqm72k4pQ",
+    "title": "Rehna Tu",
+    "artist": "A. R. Rahman",
+    "cover": "https://i.ytimg.com/vi/Bvyqm72k4pQ/mqdefault.jpg"
   },
   {
     "id": "MjTithluSd0",
@@ -58,12 +64,6 @@
     "title": "Jugni",
     "artist": "Des Raj Lachkani",
     "cover": "https://i.ytimg.com/vi/w-cVuUYf17Q/mqdefault.jpg"
-  },
-  {
-    "id": "CjK34qRxYYI",
-    "title": "Tu Raja Ki Raj Dulari",
-    "artist": "Rajbir",
-    "cover": "https://i.ytimg.com/vi/CjK34qRxYYI/mqdefault.jpg"
   },
   {
     "id": "nOKt-aCilxU",
@@ -118,5 +118,71 @@
     "title": "Ambarsariya",
     "artist": "Sona Mohapatra",
     "cover": "https://i.ytimg.com/vi/fbx6ULRrhXg/mqdefault.jpg"
+  },
+  {
+    "id": "D395bK70m3w",
+    "title": "Masakali",
+    "artist": "Mohit Chauhan",
+    "cover": "https://i.ytimg.com/vi/D395bK70m3w/mqdefault.jpg"
+  },
+  {
+    "id": "awBgv6qfVSc",
+    "title": "Kashni",
+    "artist": "Asees Kaur",
+    "cover": "https://i.ytimg.com/vi/awBgv6qfVSc/mqdefault.jpg"
+  },
+  {
+    "id": "SMlGGRAB3Hc",
+    "title": "Afreen Afreen",
+    "artist": "The Folk & Soul Studio",
+    "cover": "https://i.ytimg.com/vi/SMlGGRAB3Hc/mqdefault.jpg"
+  },
+  {
+    "id": "pRzS9QLvgZk",
+    "title": "Dhurandhar (Title Track)",
+    "artist": "Shashwat Sachdev",
+    "cover": "https://i.ytimg.com/vi/pRzS9QLvgZk/mqdefault.jpg"
+  },
+  {
+    "id": "vhpZG4r6dZY",
+    "title": "Girta Sambhalta (Extended)",
+    "artist": "",
+    "cover": "https://i.ytimg.com/vi/vhpZG4r6dZY/mqdefault.jpg"
+  },
+  {
+    "id": "o0ZXANjujO8",
+    "title": "Make Some Noise For The Desi Boyz",
+    "artist": "Kay Kay",
+    "cover": "https://i.ytimg.com/vi/o0ZXANjujO8/mqdefault.jpg"
+  },
+  {
+    "id": "3ICVjtAtBoE",
+    "title": "Bhaag D.K. Bose",
+    "artist": "",
+    "cover": "https://i.ytimg.com/vi/3ICVjtAtBoE/mqdefault.jpg"
+  },
+  {
+    "id": "GHZdsKHtioA",
+    "title": "High Heels Te Nache",
+    "artist": "Meet Bros",
+    "cover": "https://i.ytimg.com/vi/GHZdsKHtioA/mqdefault.jpg"
+  },
+  {
+    "id": "nqsBspRl5Ok",
+    "title": "Kar Gayi Chull",
+    "artist": "Badshah",
+    "cover": "https://i.ytimg.com/vi/nqsBspRl5Ok/mqdefault.jpg"
+  },
+  {
+    "id": "f0i95p5l67Y",
+    "title": "Aari Aari",
+    "artist": "Shashwat Sachdev",
+    "cover": "https://i.ytimg.com/vi/f0i95p5l67Y/mqdefault.jpg"
+  },
+  {
+    "id": "_gevL-2UOGI",
+    "title": "Pardesi",
+    "artist": "Tochi Raina",
+    "cover": "https://i.ytimg.com/vi/_gevL-2UOGI/mqdefault.jpg"
   }
 ]

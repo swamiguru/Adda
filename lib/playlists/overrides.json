@@ -1,0 +1,16 @@
+{
+  "_comment": "Manual corrections applied on top of whatever YouTube returns, keyed by video ID. Metadata from auto-generated 'Topic' channels is frequently wrong or empty, and title casing is inconsistent. Anything set here wins. An empty artist means 'YouTube's value is junk, show nothing'.",
+
+  "waHJsPu_fmU": { "artist": "Mohit Chauhan" },
+  "14tCx65hmXQ": { "artist": "Salim Merchant, Sunidhi Chauhan" },
+
+  "MjTithluSd0": { "artist": "" },
+  "vhpZG4r6dZY": { "artist": "" },
+  "3ICVjtAtBoE": { "title": "Bhaag D.K. Bose", "artist": "" },
+
+  "fbx6ULRrhXg": { "title": "Ambarsariya" },
+  "GHZdsKHtioA": { "title": "High Heels Te Nache" },
+  "pRzS9QLvgZk": { "title": "Dhurandhar (Title Track)" },
+  "f0i95p5l67Y": { "title": "Aari Aari" },
+  "nqsBspRl5Ok": { "title": "Kar Gayi Chull" }
+}
