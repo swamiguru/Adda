@@ -29,7 +29,7 @@ export default function Hub() {
                       : undefined
                   }
                 >
-                  {room.status === 'soon' && <span className="soon">soon</span>}
+                  {room.status === 'soon' && <span className="soon-badge">soon</span>}
                 </div>
                 <div className="room-meta">
                   <div className="room-title">

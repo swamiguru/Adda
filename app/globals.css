@@ -585,7 +585,11 @@ main {
   background-color: rgba(242, 228, 206, 0.05);
 }
 
-.soon {
+/* Named -badge deliberately. `.soon` also lives on the card <li> as a
+   status class, so a bare `.soon` rule styles the whole card - which is
+   exactly what happened: the pill's border-radius turned each card into
+   a circle and its text-transform uppercased the taglines. */
+.soon-badge {
   font-size: 0.66rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
