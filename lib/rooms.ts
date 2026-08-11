@@ -101,19 +101,20 @@ export const rooms: Room[] = [
     titleAnchor: [50, 16],
     status: 'live',
   },
-  {
-    slug: 'lucknow',
-    name: 'लखनऊ',
-    latin: 'Lucknow',
-    tagline: 'Hazratganj, evening',
-    tz: 'Asia/Kolkata',
-    lat: 26.8467,
-    lon: 80.9462,
-    city: 'Lucknow',
-    scene: '/scenes/lucknow.webp',
-    titleAnchor: [50, 16],
-    status: 'soon',
-  },
+  // Lucknow, when there's artwork for it:
+  // {
+  //   slug: 'lucknow',
+  //   name: 'लखनऊ',
+  //   latin: 'Lucknow',
+  //   tagline: 'Hazratganj, evening',
+  //   tz: 'Asia/Kolkata',
+  //   lat: 26.8467,
+  //   lon: 80.9462,
+  //   city: 'Lucknow',
+  //   scene: '/scenes/lucknow.webp',
+  //   titleAnchor: [50, 16],
+  //   status: 'soon',
+  // },
 ];
 
 export const liveRooms = rooms.filter((r) => r.status === 'live');
