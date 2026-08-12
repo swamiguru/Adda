@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useYouTube } from './useYouTube';
 import type { Track } from '@/lib/types';
 
@@ -26,6 +27,12 @@ export default function Cassette({ tracks, room }: { tracks: Track[]; room: stri
 
   const fraction = duration > 0 ? Math.min(position / duration, 1) : 0;
 
+  // A disc that has never turned shouldn't wind down on first paint.
+  const [everPlayed, setEverPlayed] = useState(false);
+  useEffect(() => {
+    if (playing || buffering) setEverPlayed(true);
+  }, [playing, buffering]);
+
   return (
     <div className="cassette">
       <div className="pill">
@@ -33,8 +40,16 @@ export default function Cassette({ tracks, room }: { tracks: Track[]; room: stri
             and the rosette label gives it something to be at 40px.
             Deliberately not an Ashoka Chakra: it's a protected national
             symbol and spinning it as player decoration invites trouble. */}
+        {/* `winding` stays on once the disc has ever turned, so the CSS can
+            run a wind-down instead of stopping dead on pause. */}
         <svg
-          className={`reel ${playing || buffering ? 'spinning' : ''}`}
+          className={[
+            'reel',
+            playing || buffering ? 'spinning' : '',
+            everPlayed ? 'winding' : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
           viewBox="0 0 40 40"
           aria-hidden="true"
         >

@@ -202,6 +202,20 @@ main {
   border-radius: 3px;
 }
 
+/* The minute rolling over is the site's signature moment. Swapping the
+   digits instantly wasted it. */
+@keyframes minute-roll {
+  from {
+    opacity: 0;
+    transform: translateY(0.34em);
+  }
+}
+
+.clock .hhmm {
+  display: inline-block;
+  animation: minute-roll 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 /* ---------- Wordmark ---------- */
 
 /* Absolutely placed so each room can nudge it horizontally into whatever
@@ -273,9 +287,42 @@ main {
 }
 
 /* 78rpm is 1.3 turns a second. That's far too fast to watch, so this is
-   a stylised 3.4s - slow enough to read as turning rather than flickering. */
+   a stylised 3.4s - slow enough to read as turning rather than flickering.
+
+   Two animations, not one. `spin` runs forever while playing; `wind` runs
+   once on pause and carries the disc a little further before it settles.
+   A turntable that stops dead is the one place the illusion breaks. */
 .reel.spinning {
   animation: spin 3.4s linear infinite;
+  animation-delay: 0s;
+}
+
+/* Spin-up: the first turn is slower, so it reads as reaching speed. */
+.reel.spinning {
+  animation: spin-up 1.1s cubic-bezier(0.35, 0, 0.5, 1) 1, spin 3.4s linear 1.1s infinite;
+}
+
+/* Wind-down. Only after the disc has actually turned - see `winding`. */
+.reel.winding:not(.spinning) {
+  animation: wind-down 1.5s cubic-bezier(0.15, 0.6, 0.3, 1) 1 forwards;
+}
+
+@keyframes spin-up {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(240deg);
+  }
+}
+
+@keyframes wind-down {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(58deg);
+  }
 }
 
 @keyframes spin {
@@ -637,6 +684,11 @@ main {
   opacity: 1;
 }
 
+.room-card.live a:hover .room-art,
+.room-card.live a:focus-visible .room-art {
+  transform: scale(1.04);
+}
+
 /* Touch has no hover, so show a permanent quiet cue instead of nothing. */
 @media (hover: none) {
   .room-play {
@@ -656,6 +708,9 @@ main {
 .room-art {
   position: relative;
   aspect-ratio: 16 / 9;
+  /* Scaled inside its own box so the card reads as one object rather than
+     a frame with a static picture inside it. */
+  transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
   background-size: cover;
   background-position: 62% center;
   background-color: #2f2724;
@@ -1049,6 +1104,8 @@ main {
   .wordmark,
   .pill,
   .yt-frame,
+  .clock .hhmm,
+  .reel.winding:not(.spinning),
   .hub-head,
   .room-grid,
   .hub-foot,
@@ -1058,6 +1115,14 @@ main {
 
   .scene-img {
     transition: opacity 200ms ease;
+  }
+
+  .room-art {
+    transition: none;
+  }
+
+  .room-card.live a:hover .room-art {
+    transform: none;
   }
 
   ::view-transition-group(*),

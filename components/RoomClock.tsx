@@ -41,7 +41,12 @@ export default function RoomClock({
 
   return (
     <div className={compact ? 'clock' : 'clock clock-lg'}>
-      <span className="hhmm">{hhmm}</span>
+      {/* Keyed on the displayed value so React swaps the node when the
+          minute changes, which restarts the roll animation. The clock is
+          the site's whole idea; it shouldn't change without being noticed. */}
+      <span className="hhmm" key={hhmm}>
+        {hhmm}
+      </span>
       <span className="meridiem">{meridiem?.toLowerCase()}</span>
       {city && !compact && <span className="in-city">in {city}</span>}
     </div>
