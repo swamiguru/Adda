@@ -92,6 +92,18 @@ export default async function RoomPage({ params }: Props) {
           <Link href="/" className="back">
             <span aria-hidden="true">&#8592;</span> all rooms
           </Link>
+          {/* The way out. Screen-off playback is Premium-only and enforced
+              server-side, and a cross-origin embed can't see Premium status
+              anyway - so anyone who wants this in their pocket needs the app. */}
+          <a
+            className="yt-link"
+            href={room.playlistUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Open this playlist in YouTube Music — needed for playback with the screen off"
+          >
+            YouTube Music <span aria-hidden="true">&#8599;</span>
+          </a>
         </nav>
       </header>
 

@@ -27,6 +27,16 @@ export type Room = {
    */
   scenePlaceholder?: string;
   sceneMobilePlaceholder?: string;
+  /**
+   * The YouTube Music playlist this room is built from.
+   *
+   * Offered as a way out, not decoration. Background playback with the
+   * screen off is Premium-only and enforced server-side, and a
+   * cross-origin embed can't see a visitor's Premium status anyway - so
+   * anyone who wants to keep listening with the phone in their pocket
+   * needs the app, not this page.
+   */
+  playlistUrl: string;
   /** Where the wordmark can sit without fighting the artwork: [x%, y%]. */
   titleAnchor: [number, number];
   status: 'live' | 'soon';
@@ -49,6 +59,7 @@ export const rooms: Room[] = [
     lat: 28.6315,
     lon: 77.2167,
     city: 'Delhi',
+    playlistUrl: 'https://music.youtube.com/playlist?list=PLJl8mEAkU8h0',
     scene: '/scenes/dilli.webp',
     sceneMobile: '/scenes/dilli-portrait.webp',
     scenePlaceholder: 'data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAADQBACdASoYAA4APsFOoEqnpCMhsAgA8BgJbACdMoRwIsAA3zU7uTtmx/6NORzsQAD+W38vqwvBdnt9C6yCfYaz0ZSFL06AE3N24hBk7PgCi4fctfj446x1fUSaDFMhtMHVL5mMrV0CsJJoXQ+ALmFbGLIKut/yd+eEWGDcx9SGXulFtC1ifRd7nNSxiy5azqbyyMf81+6qK+qNHCst0COKDAq/NdjwMZrnsXlFrgAAAA==',
@@ -70,6 +81,7 @@ export const rooms: Room[] = [
     lat: 18.9435,
     lon: 72.8234,
     city: 'Mumbai',
+    playlistUrl: 'https://music.youtube.com/playlist?list=PLPvbddguKJ2g',
     scene: '/scenes/mumbai.webp',
     sceneMobile: '/scenes/mumbai-portrait.webp',
     scenePlaceholder: 'data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAABQBQCdASoYAA4APsFOoUqnpCMhsAgA8BgJQBOmUGP9jGwUD9Vff/AeRSOa6NCv7XW4JpAA+dM3gQxoz6aia5lyvUm2rLJn8rDSEF2WdqbS5zlkSr0NO/VD8L6s5hiKqp03JAIsrJBLl8YQuQvdS8M6fEkz4kYZuR7oXirYks781H9CkOxKo2hlcJXL2aLP/j46ZgAAAAA=',
@@ -92,6 +104,7 @@ export const rooms: Room[] = [
     lat: 15.4989,
     lon: 73.8278,
     city: 'Panjim',
+    playlistUrl: 'https://music.youtube.com/playlist?list=PLSg5ukIuRbEg',
     scene: '/scenes/goa.webp',
     sceneMobile: '/scenes/goa-portrait.webp',
     scenePlaceholder: 'data:image/webp;base64,UklGRt4AAABXRUJQVlA4INIAAABQBQCdASoYAA4APsFOoEqnpCMhsAgA8BgJbACdLwGUBi2dkZleB7pS2qpNUavwD+Q7UKAA/ubn/OQJg9vp8BohPyVo6pHcoZDNVhi/3F56caY+0A0QpE1z7IX+EKeU3VbpMWeuk8AgGiZOqpE259RuLcgrrLiPSgixT4L6rTc2w19yXF0WC2sYl2OTVxH1mjuokoW8EibOUGIB7SZTZRfl0ZIHQzg5+/DX4kQCK5PBd5nk/nzbF1WwCueQfZDS1VTb6jrziCHGtZrRljuni9n+AAA=',

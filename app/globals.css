@@ -179,6 +179,31 @@ main {
    and shouldn't be stacked with it. */
 .hud-nav {
   padding-top: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+  text-align: right;
+}
+
+/* Quieter than the back link. It's an exit, not the main path. */
+.hud-nav .yt-link {
+  color: var(--cream);
+  text-decoration: none;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  opacity: 0.5;
+  transition: opacity 160ms;
+}
+
+.hud-nav .yt-link:hover {
+  opacity: 0.85;
+}
+
+.hud-nav .yt-link:focus-visible {
+  outline: 2px solid var(--saffron);
+  outline-offset: 4px;
+  border-radius: 3px;
 }
 
 .hud-nav .back,
