@@ -208,6 +208,57 @@ export function useYouTube(tracks: Track[], mountId: string) {
     }
   }, [playing]);
 
+  /**
+   * Keep the screen awake while playing.
+   *
+   * This is NOT background playback, and background playback is not
+   * achievable here. In February 2026 Google began enforcing it server-side
+   * as a Premium-only feature: lock the phone and a YouTube embed stops
+   * within seconds, on Android and iOS Safari alike. The only real route
+   * to lock-screen audio is self-hosted, licensed files.
+   *
+   * What this does fix is the far more common failure - the phone
+   * auto-locking after thirty idle seconds while someone is listening.
+   * The lock is held only while playing, and released on pause, so it
+   * never sits there draining a battery for a paused tab.
+   */
+  useEffect(() => {
+    if (!playing || typeof navigator === 'undefined' || !('wakeLock' in navigator)) return;
+
+    let sentinel: WakeLockSentinel | null = null;
+    let cancelled = false;
+
+    const acquire = async () => {
+      // The API rejects while the page is hidden; that's expected, not an error.
+      if (document.visibilityState !== 'visible') return;
+      try {
+        sentinel = await (navigator as any).wakeLock.request('screen');
+        if (cancelled) {
+          sentinel?.release();
+          sentinel = null;
+        }
+      } catch {
+        /* Unsupported, or refused on low battery. Nothing to tell the user. */
+      }
+    };
+
+    acquire();
+
+    // The browser drops the lock whenever the page is hidden, so it has to
+    // be taken again each time the tab comes back.
+    const onVisible = () => {
+      if (document.visibilityState === 'visible' && !sentinel) acquire();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+
+    return () => {
+      cancelled = true;
+      document.removeEventListener('visibilitychange', onVisible);
+      sentinel?.release().catch(() => {});
+      sentinel = null;
+    };
+  }, [playing]);
+
   /** Space to play/pause, arrows to skip - what people expect of a player. */
   useEffect(() => {
     if (!ready) return;
