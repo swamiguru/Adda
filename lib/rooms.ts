@@ -114,6 +114,23 @@ export const rooms: Room[] = [
     titleAnchor: [50, 16],
     status: 'live',
   },
+  {
+    // First room whose language isn't written in Devanagari. Kannada,
+    // set in Anek Kannada so it sits beside दिल्ली as a sibling rather
+    // than a graft. The rule from here: every city in its own script.
+    slug: 'bengaluru',
+    name: 'ಬೆಂಗಳೂರು',
+    latin: 'Bengaluru',
+    tagline: 'Cubbon Park, early morning',
+    tz: 'Asia/Kolkata',
+    lat: 12.9764,
+    lon: 77.5929,
+    city: 'Bengaluru',
+    playlistUrl: '',
+    scene: '/scenes/bengaluru.webp',
+    titleAnchor: [50, 16],
+    status: 'soon',
+  },
   // Lucknow, when there's artwork for it:
   // {
   //   slug: 'lucknow',

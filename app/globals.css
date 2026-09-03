@@ -28,10 +28,12 @@ body {
   height: 100%;
   background: var(--ink);
   color: var(--cream);
-  /* Latin first, Devanagari second: browsers fall through per glyph, so
-     each script gets its own cut of Anek without any manual switching. */
-  font-family: var(--font-latin), var(--font-devanagari), ui-sans-serif,
-    system-ui, sans-serif;
+  /* One family per script, listed in order. Browsers fall through per
+     glyph, so दिल्ली gets Anek Devanagari and ಬೆಂಗಳೂರು gets Anek Kannada
+     with no switching in the markup - and because they're all Anek, the
+     scripts share proportions instead of looking mismatched. */
+  font-family: var(--font-latin), var(--font-devanagari), var(--font-kannada),
+    ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
 }

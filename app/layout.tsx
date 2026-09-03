@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
-import { Anek_Latin, Anek_Devanagari } from 'next/font/google';
+import { Anek_Latin, Anek_Devanagari, Anek_Kannada } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
@@ -25,6 +25,19 @@ const anekDevanagari = Anek_Devanagari({
   subsets: ['devanagari'],
   weight: ['400', '600', '700'],
   variable: '--font-devanagari',
+  display: 'swap',
+});
+
+/**
+ * Bengaluru is the first room whose language isn't written in Devanagari.
+ * Anek is a multi-script superfamily, so the Kannada cut shares the same
+ * proportions and drawing - ಬೆಂಗಳೂರು sits beside दिल्ली as a sibling
+ * rather than a graft. Each city gets its own script from here on.
+ */
+const anekKannada = Anek_Kannada({
+  subsets: ['kannada'],
+  weight: ['400', '600', '700'],
+  variable: '--font-kannada',
   display: 'swap',
 });
 
@@ -79,7 +92,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${anekLatin.variable} ${anekDevanagari.variable}`}>
+    <html
+      lang="en"
+      className={`${anekLatin.variable} ${anekDevanagari.variable} ${anekKannada.variable}`}
+    >
       <head>
         {/* Warm up the YouTube origins before the player is created. */}
         <link rel="preconnect" href="https://www.youtube.com" />
