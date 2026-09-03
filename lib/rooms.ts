@@ -126,10 +126,15 @@ export const rooms: Room[] = [
     lat: 12.9764,
     lon: 77.5929,
     city: 'Bengaluru',
-    playlistUrl: '',
+    playlistUrl: 'https://music.youtube.com/playlist?list=PLQsnx4h6IQwg',
     scene: '/scenes/bengaluru.webp',
-    titleAnchor: [50, 16],
-    status: 'soon',
+    sceneMobile: '/scenes/bengaluru-portrait.webp',
+    scenePlaceholder: 'data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAAAQBACdASoYAA4APsFOoEqnpCMhsAgA8BgJQBOgA3KWH3+xP65XNK7RCAD+18KsL8GI9JLWvqBAhBYMwafaCgpUkuT2+RZoIMJZJziI/lWu1wD3sg3/a+LiLUpjDt8oDNpU3i7Fy/YknYMc4rmhdVOU/INf9SoxQm4DbLJM3hyAzgmAAAA=',
+    sceneMobilePlaceholder: 'data:image/webp;base64,UklGRv4AAABXRUJQVlA4IPIAAABQBgCdASoYAB4APsFSokqnpKMhsAgA8BgJQBdmcBzgNJkz4IwZSLvRyuy+2qqNPGFSeBvmCq93l1olQAD+7147x+x1TFVbGNLL7bzJEkkHR41lmqYDehEOHFS539ZahcLNaesTl9HfSPxofxoq86AzjQ3b1srsNr2+r/yhAaeUVQTGA2/4GiULWKA4detDpDMKPk9KPEvJM4P4Zd5b7WlR0ki2wxv5AV1hEkZc5jZFOl/MPr2RV9k4wb4GSQtIBJfRv7CD4Y04aKEl2HjB7rNqGJgijnPejt4yNvIjGM5SFrMKpz1K3JvWYHo9QGcE5kAAAA==',
+    // Upper left is the pale misty gap between the canopies in both
+    // scenes - the only quiet, low-contrast area in a busy green frame.
+    titleAnchor: [30, 16],
+    status: 'live',
   },
   // Lucknow, when there's artwork for it:
   // {
