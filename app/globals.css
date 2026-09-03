@@ -648,13 +648,27 @@ main {
   opacity: 0.66;
 }
 
+/* Flex rather than grid, specifically so a partial last row centres.
+   CSS grid always left-aligns a trailing orphan, which is why a fourth
+   room sat alone under the left edge. Flex wrap centres whatever is left
+   over, for any number of rooms - four, five, seven. */
 .room-grid {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.25rem;
-  grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
+}
+
+.room-card {
+  flex: 1 1 288px;
+  /* Pinned to exactly one column of a full row, so a card sitting alone
+     is the same width as its siblings above rather than slightly fatter.
+     Mirrors the container: 1040px max, minus 1.5rem padding each side,
+     minus two gaps, divided by three. */
+  max-width: calc((1040px - 3rem - 2 * 1.25rem) / 3);
 }
 
 /* Flex column so every card in a row is the same height and the footers
